@@ -1,5 +1,3 @@
-
-
 create_deck <- function(n = 1) {
   
   face_init <- as.character(c(1:13))
@@ -14,7 +12,8 @@ create_deck <- function(n = 1) {
         face <- face_init[k]
         face <- switch(face, "1"="ace", "11"="jack", "12"="queen", "13"="king", face)
         card <- structure(list(suit=suit, face=face), class="card")
-        sample_data[[56*(i-1) + (13*(j-1) + k)]] <- card
+        sample_data[[52*(i-1) + (13*(j-1) + k)]] <- card
+          # Each 52th 
       }
     }
   }
@@ -22,8 +21,26 @@ create_deck <- function(n = 1) {
   
 }
 
-set.seed(2131)
-deck <- create_deck(1)
 
-shuffled_deck <- sample(deck)
-shuffled_deck[[1]]
+set.seed(2131)
+shuffled_deck <- sample(create_deck())
+card_index <- 0
+
+draw_card <- function() {
+  card_index <<- card_index + 1
+  return(shuffled_deck[[card_index]])
+}
+
+print_card <- function(object) {
+  if(class(object) == "card"){
+    suit <- switch(object$suit, "spade" = "♠", "heart" = "♥", "club" = "♣", "diamond" = "♦", object$suit)
+    face <- switch(object$face, "queen" = "👑", object$face)
+    cat("
+  # # # 
+  #",suit,"# 
+  #",face,"#
+  # # #
+  ")
+    
+  }
+}
